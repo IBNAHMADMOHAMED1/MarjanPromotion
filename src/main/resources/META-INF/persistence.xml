@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="marjane_v1" transaction-type="RESOURCE_LOCAL"> <!--Generate the database -->
+
+        <class>entity.Admincentre</class>
+        <class>entity.Admingeneral</class>
+        <class>entity.Adminville</class>
+        <class>entity.Categorie</class>
+        <class>entity.Centre</class>
+        <class>entity.Personne</class>
+        <class>entity.Produit</class>
+        <class>entity.Promotion</class>
+        <class>entity.Rayon</class>
+        <class>entity.Stock</class>
+        <class>entity.Ville</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="postgres"/>
+            <property name="hibernate.connection.password" value="123456"/>
+        </properties>
+    </persistence-unit>
+</persistence>

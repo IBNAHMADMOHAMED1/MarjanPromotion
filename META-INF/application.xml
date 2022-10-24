@@ -4,4 +4,10 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/application_9.xsd"
              version="9">
 
+    <module id="Marjane_v1-Web">
+        <web>
+            <web-uri>web.war</web-uri>
+            <context-root>Marjane_v1Web</context-root>
+        </web>
+    </module>
 </application>

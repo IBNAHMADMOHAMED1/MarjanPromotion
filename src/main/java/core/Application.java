@@ -40,16 +40,11 @@ public class Application {
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
-                     details = getLoginDetails("Admin General");
-                    personneController.login(details[0], details[1], "adminGeneral");
-                    if (personneController.getIsLogin()) {
-                        System.out.println("Login Success");
-                        String fullname = personneController.getEntity().getFullname();
-                        System.out.println("Welcome " + fullname);
-                        String email = personneController.getEntity().getEmail();
-                        System.out.println("Your Email is " + email);
-                    }
-
+                    Personne p = personneController.checkToken("adminGeneral");
+                    if (p != null) {
+                        System.out.println("Welcome 1 " + p.getFullname());
+                        printPersonData();
+                    } else auth();
                     break;
                 case 2:
                      details = getLoginDetails("Admin Ville");
@@ -70,10 +65,23 @@ public class Application {
 
     }
 
+    private static void auth() {
+        String[] details;
+        System.out.println("You need to insert your email and password");
+        details = getLoginDetails("Login As Admin General");
+        personneController.login(details[0], details[1], "adminGeneral");
+        if (personneController.getIsLogin()) {
+            personneController.storeToken(details,"adminGeneral");
+            System.out.println("Welcome 2" + personneController.getEntity().getFullname());
+            printPersonData();
+        }
+        else auth();
+    }
+
     public static String[] getLoginDetails(String role) {
         System.out.println("Welcome " + role);
-       while (true)
-        {
+       while (true) {
+
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter your email");
             String email = sc.nextLine();

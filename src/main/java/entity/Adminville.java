@@ -12,8 +12,8 @@ public class Adminville {
     @Column(name = "personne_id")
     private Integer personneId;
     @Basic
-    @Column(name = "idadming")
-    private Integer idadming;
+    @Column(name = "idville")
+    private Integer idville;
 
     public int getIdadminville() {
         return idadminville;
@@ -31,12 +31,12 @@ public class Adminville {
         this.personneId = personneId;
     }
 
-    public Integer getIdadming() {
-        return idadming;
+    public Integer getIdville() {
+        return idville;
     }
 
-    public void setIdadming(Integer idadming) {
-        this.idadming = idadming;
+    public void setIdville(Integer idville) {
+        this.idville = idville;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Adminville {
 
         if (idadminville != that.idadminville) return false;
         if (personneId != null ? !personneId.equals(that.personneId) : that.personneId != null) return false;
-        if (idadming != null ? !idadming.equals(that.idadming) : that.idadming != null) return false;
+        if (idville != null ? !idville.equals(that.idville) : that.idville != null) return false;
 
         return true;
     }
@@ -57,7 +57,7 @@ public class Adminville {
     public int hashCode() {
         int result = idadminville;
         result = 31 * result + (personneId != null ? personneId.hashCode() : 0);
-        result = 31 * result + (idadming != null ? idadming.hashCode() : 0);
+        result = 31 * result + (idville != null ? idville.hashCode() : 0);
         return result;
     }
 }

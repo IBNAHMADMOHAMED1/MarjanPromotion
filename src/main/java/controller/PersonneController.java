@@ -1,11 +1,14 @@
 package controller;
 
+import dao.HibernateDao;
 import entity.Personne;
 import service.*;
+import utils.Sout;
 
 import javax.swing.*;
+import java.util.List;
 
-public class PersonneController {
+public class PersonneController extends HibernateDao<Personne> {
     private static final JpaService jpaService = JpaService.getInstance();
     private static Personne entity = new Personne();
     private static Boolean isLogin = false;
@@ -15,6 +18,9 @@ public class PersonneController {
 
     public static String getFullname() {
         return fullname;
+    }
+    public PersonneController() {
+        setClazz(Personne.class);
     }
 
 
@@ -36,20 +42,13 @@ public class PersonneController {
 
     public  void login(String email, String password,String tableJoin) {
 
-        Personne personne = jpaService.runInTransaction(entityManager -> {
-            return entityManager.createQuery("select p from Personne p where p.email = :email and p.password = :password", Personne.class)
-                    .setParameter("email", email)
-                    .setParameter("password", password)
-                    .getResultList().stream().findFirst().orElse(null);
-        });
-        if (personne != null) {
+        Personne res = authenticate(email, password,tableJoin);
+        if (res != null) {
             setIsLogin(true);
-            setEntity(personne);
-            System.out.println("Welcome 1 " + personne.getFullname());
-            fullname = personne.getFullname();
-            this.email = email;
+            Sout.sout("green", "Login success");
+            Sout.sout("green", "Welcome " + res.getFullname());
         } else {
-            System.out.println("Error");
+            Sout.sout("red", "Login failed");
         }
     }
 
@@ -79,17 +78,28 @@ public class PersonneController {
                 });
                 return personne;
             }
-
+            else {
+                LocalStore rmToken = new LocalStore();
+                rmToken.removeItem(token);
+            }
         }
         return null;
     }
 
-
-
-
     public static void logout() {
         entity = new Personne();
         isLogin = false;
+    }
+    public int createPersonne(Personne personne) {
+        int id = jpaService.runInTransaction(entityManager -> {
+            entityManager.persist(personne);
+            return personne.getId();
+        });
+        return id;
+    }
+
+    public List<Personne> findAllPersonne(int start, int limit) {
+         return findAll(start, limit);
     }
 
 

@@ -3,10 +3,14 @@ package service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import dao.Action;
+import dao.HibernateDao;
+import entity.Store;
+import utils.Sout;
 
 import java.util.Date;
 
-public class Jwt {
+public class Jwt{
 
     private static final String SECRET_KEY = "secret";
     private static final String TOKEN_PREFIX = "Bearer";
@@ -20,19 +24,21 @@ public class Jwt {
                 .withClaim("fullname", fullname)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SECRET_KEY.getBytes()));
-
         return token;
     }
     public static boolean isTokenExpired(String token) {
+        Boolean isExpired = false;
+        Date expiration = null;
         try {
-            Date expiration = JWT.require(Algorithm.HMAC512(SECRET_KEY.getBytes()))
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getExpiresAt();
-            return expiration.before(new Date());
+            expiration = JWT.decode(token).getExpiresAt();
+            Sout.sout("yellow", "expiration: " + expiration);
+            isExpired = expiration.before(new Date());
+
         } catch (JWTDecodeException exception){
-            return false;
+            // print text Error red color
+            Sout.sout("red", "Error");
         }
+        return isExpired;
     }
 
     // decodeToken return data[]
@@ -53,6 +59,8 @@ public class Jwt {
         }
         return data;
     }
+
+
 
 
 

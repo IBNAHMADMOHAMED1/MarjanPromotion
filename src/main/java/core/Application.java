@@ -43,7 +43,7 @@ public class Application {
                     Personne p = personneController.checkToken("adminGeneral");
                     if (p != null) {
                         System.out.println("Welcome 1 " + p.getFullname());
-                        printPersonData();
+                         Menu.adminGeneralMenu();
                     } else auth();
                     break;
                 case 2:
@@ -73,7 +73,7 @@ public class Application {
         if (personneController.getIsLogin()) {
             personneController.storeToken(details,"adminGeneral");
             System.out.println("Welcome 2" + personneController.getEntity().getFullname());
-            printPersonData();
+            Menu.adminGeneralMenu();
         }
         else auth();
     }

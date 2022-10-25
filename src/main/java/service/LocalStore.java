@@ -1,8 +1,10 @@
 package service;
 
+import dao.HibernateDao;
 import entity.Store;
+import utils.Sout;
 
-public class LocalStore {
+public class LocalStore extends HibernateDao<Store> {
     private  static final Store entity = new Store();
 
     public static void setItem(String key, String value) {
@@ -29,13 +31,11 @@ public class LocalStore {
         return value;
     }
 
-    public static void removeItem(String key) {
-        JpaService.getInstance().runInTransaction(entityManager -> {
-            entityManager.createQuery("delete from Store l where l.key = :key")
-                    .setParameter("key", key)
-                    .executeUpdate();
-            return null;
-        });
+    public  void removeItem(String key) {
+      Boolean isDelet = delete(entity);
+      Sout.sout("blue", "We are removing your token because it is expired");
+
     }
+
 
 }

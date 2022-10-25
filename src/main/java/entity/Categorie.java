@@ -47,4 +47,5 @@ public class Categorie {
         result = 31 * result + (nom != null ? nom.hashCode() : 0);
         return result;
     }
+
 }

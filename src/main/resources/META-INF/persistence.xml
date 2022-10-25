@@ -16,7 +16,6 @@
         <class>entity.Rayon</class>
         <class>entity.Stock</class>
         <class>entity.Ville</class>
-        <class>entity.Localstore</class>
         <class>entity.Store</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>

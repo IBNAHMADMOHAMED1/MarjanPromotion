@@ -2,6 +2,7 @@ package controller;
 
 import entity.Ville;
 import service.JpaService;
+import utils.Sout;
 
 import java.util.*;
 
@@ -41,7 +42,7 @@ public class VilleController {
             lastId = ville.getIdville();
             return lastId;
         } else {
-            System.out.println("Ville Already Exist");
+            Sout.sout("red", "Ville already exist");
             return 0;
         }
     }
@@ -55,6 +56,12 @@ public class VilleController {
                             .getResultList().size() > 0;
                 });
         return isAlreadyExist;
+    }
+    public static Ville getVilleById(int id) {
+        Ville ville = jpaService.runInTransaction(entityManager -> {
+            return entityManager.find(Ville.class, id);
+        });
+        return ville;
     }
 
 

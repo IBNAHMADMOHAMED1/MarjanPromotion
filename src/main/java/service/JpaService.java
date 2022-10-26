@@ -1,5 +1,6 @@
 package service;
 
+import entity.Ville;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -46,5 +47,6 @@ public class JpaService {
             entityManager.close();
         }
     }
+
 
 }

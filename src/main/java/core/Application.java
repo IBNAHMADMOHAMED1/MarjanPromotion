@@ -44,11 +44,15 @@ public class Application {
                     if (p != null) {
                         System.out.println("Welcome 1 " + p.getFullname());
                          Menu.adminGeneralMenu();
-                    } else auth();
+                    } else auth("adminGeneral");
                     break;
                 case 2:
-                     details = getLoginDetails("Admin Ville");
-                     personneController.login(details[0], details[1], "AdminVille");
+                    Personne p1 = personneController.checkToken("adminVille");
+                    if (p1 != null) {
+                        System.out.println("Welcome 2 " + p1.getFullname());
+                        Menu.adminVilleMenu();
+                    } else auth("adminVille");
+
                     break;
                 case 3:
                     details = getLoginDetails("Admin Centre");
@@ -65,17 +69,16 @@ public class Application {
 
     }
 
-    private static void auth() {
+    private static void auth(String tableJoin) {
         String[] details;
         System.out.println("You need to insert your email and password");
-        details = getLoginDetails("Login As Admin General");
-        personneController.login(details[0], details[1], "adminGeneral");
+        details = getLoginDetails("Login As " + tableJoin);
+        personneController.login(details[0], details[1], tableJoin);
         if (personneController.getIsLogin()) {
-            personneController.storeToken(details,"adminGeneral");
-            System.out.println("Welcome 2" + personneController.getEntity().getFullname());
+            personneController.storeToken(details, tableJoin);
             Menu.adminGeneralMenu();
         }
-        else auth();
+        else auth(tableJoin);
     }
 
     public static String[] getLoginDetails(String role) {

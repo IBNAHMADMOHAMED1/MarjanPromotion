@@ -49,7 +49,7 @@ public abstract class HibernateDao<T extends Serializable> {
             return entityManager.createNativeQuery("SELECT * FROM Personne p JOIN "+ tableJoin +" a ON p.id = a.personne_id WHERE p.email = :email AND p.password = :password", Personne.class)
                     .setParameter("email", email)
                     .setParameter("password", password)
-                    .getSingleResult();
+                    .getResultList().stream().findFirst().orElse(null);
         });
 
         return entity;
@@ -62,7 +62,38 @@ public abstract class HibernateDao<T extends Serializable> {
                     .setMaxResults(limit)
                     .getResultList();
         });
-
     }
+
+    public  T findByFiled(String field, String value) {
+        return (T) jpaService.runInTransaction(entityManager -> {
+            return entityManager.createQuery("select p from " + clazz.getName() + " p where p." + field + " = :value", clazz)
+                    .setParameter("value", value)
+                    .getSingleResult();
+        });
+    }
+
+    public  T findOne(int id) {
+        return (T) jpaService.runInTransaction(entityManager -> {
+            return entityManager.find(clazz, id);
+        });
+    }
+    public T findOneJoin(int id, String tableJoin) {
+        return (T) jpaService.runInTransaction(entityManager -> {
+            return entityManager.createNativeQuery("SELECT * FROM Personne p JOIN "+ tableJoin +" a ON p.id = a.personne_id WHERE p.id = :id", Personne.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        });
+    }
+
+    public  Boolean deleteWhere(String field, String value) {
+        return (Boolean) jpaService.runInTransaction(entityManager -> {
+            entityManager.createQuery("delete from " + clazz.getName() + " p where p." + field + " = :value")
+                    .setParameter("value", value)
+                    .executeUpdate();
+            return true;
+        });
+    }
+
+
 
 }

@@ -5,7 +5,6 @@ import entity.Personne;
 import service.*;
 import utils.Sout;
 
-import javax.swing.*;
 import java.util.List;
 
 public class PersonneController extends HibernateDao<Personne> {
@@ -59,12 +58,12 @@ public class PersonneController extends HibernateDao<Personne> {
         email = details[1];
         String token = Jwt.generateToken(email, role, fullname);
         System.out.println("Your Token is " + token);
-        LocalStore.setItem(role, token);
+        StoreController.setItem(role, token);
     }
 
     // methode to if user has token or not if have return person data
     public static Personne checkToken(String role) {
-        String token = LocalStore.getItem(role);
+        String token = StoreController.getItem(role);
         if (token != null) {
             // check if token is valid
             if (! Jwt.isTokenExpired(token)) {
@@ -79,27 +78,31 @@ public class PersonneController extends HibernateDao<Personne> {
                 return personne;
             }
             else {
-                LocalStore rmToken = new LocalStore();
+                StoreController rmToken = new StoreController();
                 rmToken.removeItem(token);
             }
         }
         return null;
     }
 
-    public static void logout() {
+    public static void logout(String key) {
         entity = new Personne();
+        String token = StoreController.getItem(key);
+        StoreController rmToken = new StoreController();
+        rmToken.deleteItem(key, token);
         isLogin = false;
     }
     public int createPersonne(Personne personne) {
-        int id = jpaService.runInTransaction(entityManager -> {
-            entityManager.persist(personne);
-            return personne.getId();
-        });
-        return id;
+        Personne res = create(personne);
+        return res.getId();
     }
 
     public List<Personne> findAllPersonne(int start, int limit) {
          return findAll(start, limit);
+    }
+
+    public Personne findPersonneById(int id,String tableJoin) {
+        return findOneJoin(id,tableJoin);
     }
 
 

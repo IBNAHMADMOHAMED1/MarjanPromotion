@@ -1,16 +1,21 @@
 package controller;
 
+import dao.HibernateDao;
 import entity.Ville;
 import service.JpaService;
 import utils.Sout;
 
 import java.util.*;
 
-public class VilleController {
+public class VilleController extends HibernateDao<Ville> {
     private static final JpaService jpaService = JpaService.getInstance();
     private static Ville entity = new Ville();
 
     private  static List<Ville> villeList = new ArrayList<>();
+
+    public VilleController() {
+        setClazz(Ville.class);
+    }
 
     public static Ville getEntity() {
         return entity;
@@ -65,5 +70,9 @@ public class VilleController {
     }
 
 
+    // checkIfVilleHasAdmin
+    public  Ville checkIfVilleHasAdmin(int id) {
+      return findOne(id);
+    }
 
 }

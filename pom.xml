@@ -35,6 +35,12 @@
             <artifactId>spring-security-core</artifactId>
             <version>5.7.3</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
 
 
         <dependency>

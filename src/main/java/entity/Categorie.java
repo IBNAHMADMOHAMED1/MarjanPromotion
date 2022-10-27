@@ -2,8 +2,10 @@ package entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-public class Categorie {
+public class Categorie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idcategorie")
@@ -14,6 +16,9 @@ public class Categorie {
     @Basic
     @Column(name = "idcentre")
     private Integer idcentre;
+    @Basic
+    @Column(name = "idresponsable")
+    private Integer idresponsable;
 
     public int getIdcategorie() {
         return idcategorie;
@@ -59,5 +64,13 @@ public class Categorie {
         result = 31 * result + (nom != null ? nom.hashCode() : 0);
         result = 31 * result + (idcentre != null ? idcentre.hashCode() : 0);
         return result;
+    }
+
+    public Integer getIdresponsable() {
+        return idresponsable;
+    }
+
+    public void setIdresponsable(Integer idresponsable) {
+        this.idresponsable = idresponsable;
     }
 }

@@ -11,6 +11,9 @@ public class Categorie {
     @Basic
     @Column(name = "nom")
     private String nom;
+    @Basic
+    @Column(name = "idcentre")
+    private Integer idcentre;
 
     public int getIdcategorie() {
         return idcategorie;
@@ -28,6 +31,14 @@ public class Categorie {
         this.nom = nom;
     }
 
+    public Integer getIdcentre() {
+        return idcentre;
+    }
+
+    public void setIdcentre(Integer idcentre) {
+        this.idcentre = idcentre;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,6 +48,7 @@ public class Categorie {
 
         if (idcategorie != categorie.idcategorie) return false;
         if (nom != null ? !nom.equals(categorie.nom) : categorie.nom != null) return false;
+        if (idcentre != null ? !idcentre.equals(categorie.idcentre) : categorie.idcentre != null) return false;
 
         return true;
     }
@@ -45,7 +57,7 @@ public class Categorie {
     public int hashCode() {
         int result = idcategorie;
         result = 31 * result + (nom != null ? nom.hashCode() : 0);
+        result = 31 * result + (idcentre != null ? idcentre.hashCode() : 0);
         return result;
     }
-
 }

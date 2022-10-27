@@ -2,6 +2,8 @@ package entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
 public class Promotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,15 @@ public class Promotion {
     @Basic
     @Column(name = "isaccepted")
     private Boolean isaccepted;
+    @Basic
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+    @Basic
+    @Column(name = "startdate")
+    private String startdate;
+    @Basic
+    @Column(name = "enddate")
+    private String enddate;
 
     public int getIdpromotion() {
         return idpromotion;
@@ -61,6 +72,30 @@ public class Promotion {
         this.isaccepted = isaccepted;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,6 +110,9 @@ public class Promotion {
             return false;
         if (ratio != null ? !ratio.equals(promotion.ratio) : promotion.ratio != null) return false;
         if (isaccepted != null ? !isaccepted.equals(promotion.isaccepted) : promotion.isaccepted != null) return false;
+        if (createdAt != null ? !createdAt.equals(promotion.createdAt) : promotion.createdAt != null) return false;
+        if (startdate != null ? !startdate.equals(promotion.startdate) : promotion.startdate != null) return false;
+        if (enddate != null ? !enddate.equals(promotion.enddate) : promotion.enddate != null) return false;
 
         return true;
     }
@@ -86,6 +124,9 @@ public class Promotion {
         result = 31 * result + (nompromotion != null ? nompromotion.hashCode() : 0);
         result = 31 * result + (ratio != null ? ratio.hashCode() : 0);
         result = 31 * result + (isaccepted != null ? isaccepted.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (startdate != null ? startdate.hashCode() : 0);
+        result = 31 * result + (enddate != null ? enddate.hashCode() : 0);
         return result;
     }
 }

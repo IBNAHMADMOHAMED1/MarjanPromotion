@@ -2,10 +2,8 @@ package entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
-public class Personne implements Serializable {
+public class Personne {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")

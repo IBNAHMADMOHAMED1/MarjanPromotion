@@ -35,7 +35,7 @@ public class Application {
         System.out.println("1- Login As Admin General");
         System.out.println("2- Login As Admin Ville");
         System.out.println("3- Login As Admin Centre");
-        System.out.println("4- Login As Rayon");
+        System.out.println("4- Login As Responsable categorie");
         while (true) {
             int choice = sc.nextInt();
             switch (choice) {
@@ -55,8 +55,11 @@ public class Application {
 
                     break;
                 case 3:
-                    details = getLoginDetails("Admin Centre");
-                    personneController.login(details[0], details[1], "AdminCentre");
+                    Personne p2 = personneController.checkToken("adminCentre");
+                    if (p2 != null) {
+                        System.out.println("Welcome 3 " + p2.getFullname());
+                        Menu.adminCentreMenu(p2.getId());
+                    } else auth("adminCentre");
                     break;
                 case 4:
                     details = getLoginDetails("Rayon");
@@ -76,7 +79,13 @@ public class Application {
         personneController.login(details[0], details[1], tableJoin);
         if (personneController.getIsLogin()) {
             personneController.storeToken(details, tableJoin);
-            Menu.adminGeneralMenu();
+            if (tableJoin.equals("adminGeneral")) Menu.adminGeneralMenu();
+            else if (tableJoin.equals("adminVille")) Menu.adminVilleMenu();
+            else if  (tableJoin.equals("adminCentre")) {
+                Personne p2 = personneController.checkToken("adminCentre");
+                Menu.adminCentreMenu(p2.getId());
+            }
+
         }
         else auth(tableJoin);
     }

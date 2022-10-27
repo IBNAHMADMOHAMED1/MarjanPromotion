@@ -2,8 +2,10 @@ package entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-public class Admincentre {
+public class Admincentre implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idadmincentre")

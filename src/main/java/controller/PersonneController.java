@@ -105,7 +105,13 @@ public class PersonneController extends HibernateDao<Personne> {
         return findOneJoin(id,tableJoin);
     }
 
-
+    public int createPersonneDetails(String fullname, String email, String password) {
+        Personne personne = new Personne();
+        personne.setFullname(fullname);
+        personne.setEmail(email);
+        personne.setPassword(password);
+        return createPersonne(personne);
+    }
 
 
 

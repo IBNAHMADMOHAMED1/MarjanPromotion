@@ -25,4 +25,13 @@ public class ResponsableController extends HibernateDao<Responsable> {
          cg.updateIdResponsable(categorieId, rs.getIdresponsable());
           return  rs;
     }
+
+    // getResponsableByPersonne
+    public Responsable getResponsableByPersonne(int idPersonne) {
+        return (Responsable) jpaService.runInTransaction(entityManager -> entityManager
+                .createNativeQuery("select * from responsable where personne_id = " + idPersonne, Responsable.class)
+                .getSingleResult());
+    }
+
+
 }

@@ -21,4 +21,18 @@ public class PromotionController extends HibernateDao<Promotion> {
         promotion.setRatio(discount);
         return create(promotion);
     }
+
+    // getPromotionByCategorie
+    public Promotion getPromotionByCategorie(int idCategorie) {
+        return (Promotion) jpaService.runInTransaction(entityManager -> entityManager
+                .createNativeQuery("select * from promotion where categorie_id = " + idCategorie, Promotion.class)
+                .getResultList().stream().findFirst().orElse(null));
+    }
+
+    // validatePromotion
+    public void validatePromotion(int idPromotion) {
+        jpaService.runInTransaction(entityManager -> entityManager
+                .createQuery("update Promotion set isaccepted = true where idpromotion = " + idPromotion)
+                .executeUpdate());
+    }
 }

@@ -294,6 +294,44 @@ public class Menu {
         return new String[]{};
     }
 
+    // responsableMenu view a promotion of a category and validate it (in time 09-12 and 14-17)
+    public static void responsableMenu(int idPersonne) {
+        System.out.println("*** Responsable Menu ***");
+        System.out.println(idPersonne);
+
+        // get categorie by responsable
+        ResponsableController responsableController = new ResponsableController();
+        Responsable responsable = responsableController.getResponsableByPersonne(idPersonne);
+        CategorieController cat = new CategorieController();
+        Categorie categorie = cat.getCategorieByResponsable(responsable.getIdresponsable());
+        System.out.println("Categorie : " + categorie.getNom());
+
+
+        // get promotion by categorie
+        PromotionController promotionController = new PromotionController();
+        Promotion promotion = promotionController.getPromotionByCategorie(categorie.getIdcategorie());
+        if (promotion == null)
+            Sout.sout("red", "No promotion for this category");
+        else {
+            Sout.sout("green", "Promotion : " + promotion.getNompromotion());
+            Sout.sout("green", "Description : " + promotion.getRatio());
+            Sout.sout("green", "Start Date : " + promotion.getStartdate());
+            Sout.sout("green", "End Date : " + promotion.getEnddate());
+            // ask for validation or not
+            System.out.println("Do you want to validate this promotion ? (y/n)");
+            Scanner sc = new Scanner(System.in);
+            String choice = sc.nextLine();
+            if (choice.equals("y")) {
+                promotionController.validatePromotion(promotion.getIdpromotion());
+                Sout.sout("green", "Promotion Validated Successfully");
+            } else {
+                Sout.sout("red", "Promotion Not Validated");
+            }
+        }
+
+
+
+    }
 
 
 

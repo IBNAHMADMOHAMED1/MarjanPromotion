@@ -62,8 +62,12 @@ public class Application {
                     } else auth("adminCentre");
                     break;
                 case 4:
-                    details = getLoginDetails("Rayon");
-                    personneController.login(details[0], details[1], "rayon");
+                    Personne p3 = personneController.checkToken("responsable");
+                    if (p3 != null) {
+                        System.out.println("Welcome 4 " + p3.getFullname());
+                        Menu.responsableMenu(p3.getId());
+                    } else auth("responsable");
+
                     break;
                 default:
                     System.out.println("Invalid choice");
@@ -84,6 +88,10 @@ public class Application {
             else if  (tableJoin.equals("adminCentre")) {
                 Personne p2 = personneController.checkToken("adminCentre");
                 Menu.adminCentreMenu(p2.getId());
+            }
+            else if (tableJoin.equals("responsable")) {
+                Personne p3 = personneController.checkToken("responsable");
+                Menu.responsableMenu(p3.getId());
             }
 
         }

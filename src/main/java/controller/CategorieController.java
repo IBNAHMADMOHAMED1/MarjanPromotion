@@ -27,8 +27,23 @@ public class CategorieController extends HibernateDao<Categorie> {
     }
 
     public void  updateIdResponsable(int idCategorie, int idResponsable) {
-        jpaService.runInTransaction(entityManager -> entityManager
-                .createQuery("update Categorie set idresponsable = " + idResponsable + " where idcategorie = " + idCategorie)
-                .executeUpdate());
+        Boolean isResponsable = (Boolean) jpaService.runInTransaction(entityManager -> entityManager
+                .createNativeQuery("select exists(select * from categorie where idresponsable = " + idResponsable + ")")
+                .getSingleResult());
+        if (isResponsable) {
+            jpaService.runInTransaction(entityManager -> entityManager
+                    .createQuery("update Categorie set idresponsable = " + idResponsable + " where idcategorie = " + idCategorie)
+                    .executeUpdate());
+        }
+        else {
+            System.out.println("This categorie is not responsable");
+        }
+    }
+
+    // getCategorieByResponsable
+    public Categorie getCategorieByResponsable(int idResponsable) {
+        return (Categorie) jpaService.runInTransaction(entityManager -> entityManager
+                .createNativeQuery("select * from categorie where idresponsable = " + idResponsable, Categorie.class)
+                .getResultList().stream().findFirst().orElse(null));
     }
 }
